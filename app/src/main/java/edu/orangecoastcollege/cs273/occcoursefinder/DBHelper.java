@@ -66,8 +66,8 @@ class DBHelper extends SQLiteOpenHelper {
                 + FIELD_EMAIL + " TEXT" + ")";
         database.execSQL(createQuery);
 
-        //TODO:  Write the query to create the relationship table "Offerings"
-        //TODO:  Make sure to include foreign keys to the Courses and Instructors tables
+        //COMPLETED:  Write the query to create the relationship table "Offerings"
+        //COMPLETED:  Make sure to include foreign keys to the Courses and Instructors tables
         createQuery = "CREATE TABLE " + OFFERINGS_TABLE + " ("
                 + FIELD_CRN + " INTEGER, "
                 + FIELD_SEMESTER_CODE + " INTEGER, "
@@ -86,7 +86,8 @@ class DBHelper extends SQLiteOpenHelper {
                           int newVersion) {
         database.execSQL("DROP TABLE IF EXISTS " + COURSES_TABLE);
         database.execSQL("DROP TABLE IF EXISTS " + INSTRUCTORS_TABLE);
-        //TODO:  Drop the Offerings table
+        //COMPLETED:  Drop the Offerings table
+        database.execSQL("DROP TABLE IF EXISTS " + OFFERINGS_TABLE);
         onCreate(database);
     }
 
@@ -413,6 +414,7 @@ class DBHelper extends SQLiteOpenHelper {
         return true;
     }
 
+
     public boolean importInstructorsFromCSV(String csvFileName) {
         AssetManager am = mContext.getAssets();
         InputStream inStream = null;
@@ -428,7 +430,7 @@ class DBHelper extends SQLiteOpenHelper {
             while ((line = buffer.readLine()) != null) {
                 String[] fields = line.split(",");
                 if (fields.length != 4) {
-                    Log.d("OCC Course Finder", "Skipping Bad CSV Row: " + Arrays.toString(fields));
+                    Log.d("OCC Instructors Finder", "Skipping Bad CSV Row: " + Arrays.toString(fields));
                     continue;
                 }
                 int id = Integer.parseInt(fields[0].trim());
@@ -443,6 +445,7 @@ class DBHelper extends SQLiteOpenHelper {
         }
         return true;
     }
+
 
     public boolean importOfferingsFromCSV(String csvFileName) {
         AssetManager am = mContext.getAssets();
@@ -459,7 +462,7 @@ class DBHelper extends SQLiteOpenHelper {
             while ((line = buffer.readLine()) != null) {
                 String[] fields = line.split(",");
                 if (fields.length != 4) {
-                    Log.d("OCC Course Finder", "Skipping Bad CSV Row: " + Arrays.toString(fields));
+                    Log.d("OCC Offerings Finder", "Skipping Bad CSV Row: " + Arrays.toString(fields));
                     continue;
                 }
                 int crn = Integer.parseInt(fields[0].trim());
